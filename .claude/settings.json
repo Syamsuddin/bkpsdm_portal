@@ -1,18 +1,4 @@
 {
-  "mcpServers": {
-    "odin": {
-      "type": "stdio",
-      "command": "ssh",
-      "args": [
-        "-q",
-        "-T",
-        "bkpsdm_srv",
-        "/home/odin/run.sh",
-        "--project",
-        "bkspdm_proj"
-      ]
-    }
-  },
   "hooks": {
     "PreToolUse": [
       {
@@ -58,5 +44,19 @@
       "mcp__odin__handover",
       "mcp__odin__triage"
     ]
+  },
+  "mcpServers": {
+    "odin": {
+      "type": "stdio",
+      "command": "ssh",
+      "args": [
+        "-q",
+        "-T",
+        "bkpsdm_srv",
+        "/home/odin/run.sh",
+        "--project",
+        "bkpsdm_proj"
+      ]
+    }
   }
 }
