@@ -6,8 +6,8 @@
 .idea/
 *.swp
 
-# Claude Code local overrides (mesin-spesifik, jangan di-commit)
-.claude/settings.local.json
+# Claude Code (mesin-spesifik, jangan di-commit ke repo publik)
+.claude/
 
 # Log & artefak sementara
 *.log
