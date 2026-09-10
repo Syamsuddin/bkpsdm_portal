@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Claude Code local overrides (mesin-spesifik, jangan di-commit)
+.claude/settings.local.json
+
+# Log & artefak sementara
+*.log
+tmp/

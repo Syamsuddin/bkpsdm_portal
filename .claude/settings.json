@@ -1,0 +1,62 @@
+{
+  "mcpServers": {
+    "odin": {
+      "type": "stdio",
+      "command": "ssh",
+      "args": [
+        "-q",
+        "-T",
+        "bkpsdm_srv",
+        "/home/odin/run.sh",
+        "--project",
+        "bkspdm_proj"
+      ]
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__odin__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/syams/.odin/app/client/odin_guard.py'",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__odin__inspect_server",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/syams/.odin/app/client/odin_guard.py'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "mcp__odin__server_info",
+      "mcp__odin__tail_log",
+      "mcp__odin__http_health_check",
+      "mcp__odin__memory_recall",
+      "mcp__odin__memory_digest",
+      "mcp__odin__memory_health",
+      "mcp__odin__session_history",
+      "mcp__odin__rollback_plan",
+      "mcp__odin__inspect_server",
+      "mcp__odin__audit_tail",
+      "mcp__odin__runbook_templates",
+      "mcp__odin__cortex_events",
+      "mcp__odin__run_tests",
+      "mcp__odin__rehearse",
+      "mcp__odin__handover",
+      "mcp__odin__triage"
+    ]
+  }
+}
