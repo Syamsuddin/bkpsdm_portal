@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Layanan Digital ASN</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Pro / Free CDN untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gov: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#026aa7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animasi Futuristik Halus untuk Icon Card */
+        @keyframes pulse-subtle {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 2px rgba(2, 132, 199, 0.4));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 8px rgba(2, 132, 199, 0.8));
+            }
+        }
+
+        .icon-animated {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .app-card:hover .icon-animated {
+            animation: pulse-subtle 0.6s ease-in-out infinite alternate, glow 1.5s infinite;
+        }
+
+        /* Aurora: hanya transform dan opacity yang dianimasikan. */
+        body {
+            background: #07182f !important;
+        }
+
+        .scene {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            background: linear-gradient(135deg, #071426, #102a50 55%, #073b4c);
+        }
+
+        .aurora {
+            position: absolute;
+            width: 80vmax;
+            height: 65vmax;
+            border-radius: 50%;
+            opacity: .65;
+            filter: blur(65px);
+            animation: drift 24s ease-in-out infinite alternate;
+        }
+
+        .aurora-one {
+            top: -45vmax;
+            left: -15vmax;
+            background: radial-gradient(ellipse, #368cff, transparent 68%);
+        }
+
+        .aurora-two {
+            right: -35vmax;
+            bottom: -40vmax;
+            background: radial-gradient(ellipse, #06b6bb, transparent 68%);
+            animation-delay: -12s;
+            animation-duration: 30s;
+        }
+
+        .aurora-three {
+            top: 10%;
+            right: -25vmax;
+            background: radial-gradient(ellipse, #5358bc80, transparent 65%);
+            animation-delay: -7s;
+        }
+
+        .scene-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(#b0d9ff08 1px, transparent 1px), linear-gradient(90deg, #b0d9ff08 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: linear-gradient(transparent, #0009, transparent);
+        }
+
+        .orbital {
+            position: absolute;
+            width: 100vmax;
+            height: 38vmax;
+            border: 1px solid #95dcff17;
+            border-radius: 50%;
+            transform: rotate(-26deg);
+            bottom: -18vmax;
+            left: -10vmax;
+            box-shadow: 0 -24px 80px #38bdf807, inset 0 1px 0 #b5e8ff12;
+        }
+
+        .orbital.second {
+            bottom: -24vmax;
+            left: 3vmax;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #b8edff;
+            border-radius: 50%;
+            opacity: .25;
+            animation: twinkle 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift {
+            to {
+                transform: translate(8vw, 8vh) scale(1.12) rotate(10deg);
+            }
+        }
+
+        @keyframes twinkle {
+            to {
+                opacity: .7;
+                transform: translateY(-12px);
+            }
+        }
+
+        header {
+            background: #091a30b8 !important;
+            border-color: #ffffff16 !important;
+            box-shadow: none !important;
+        }
+
+        header h1 {
+            color: #f1f7ff !important;
+        }
+
+        header h1 span {
+            color: #76d4ff !important;
+        }
+
+        header p,
+        #date {
+            color: #a7bbd1 !important;
+        }
+
+        #clock {
+            color: #e0edff !important;
+        }
+
+        header .bg-slate-50 {
+            background: #ffffff09 !important;
+            border-color: #ffffff1c !important;
+            box-shadow: none;
+        }
+
+        header .border-r {
+            border-color: #ffffff1c !important;
+        }
+
+        main {
+            padding-top: 52px !important;
+            padding-bottom: 52px !important;
+        }
+
+        main>div:first-child {
+            margin-bottom: 32px;
+        }
+
+        main h2 {
+            color: #f4f8ff !important;
+            font-size: clamp(24px, 3vw, 34px) !important;
+            font-weight: 600 !important;
+            letter-spacing: -.035em !important;
+            margin-bottom: 8px;
+        }
+
+        main>div:first-child p {
+            color: #a8bfd7 !important;
+            font-size: 13px !important;
+        }
+
+        .eyebrow {
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        #searchInput {
+            background: #ffffff0d !important;
+            border-color: #ffffff26 !important;
+            color: white;
+            border-radius: 14px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+
+        #searchInput::placeholder {
+            color: #a8bdd3;
+        }
+
+        #searchInput:focus {
+            background: #153554 !important;
+        }
+
+        .app-card {
+            background: linear-gradient(135deg, #ffffff12, #ffffff07) !important;
+            border-color: #ffffff20 !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 24px #0000000a !important;
+            min-height: 158px;
+            padding: 22px 14px !important;
+            overflow: hidden;
+        }
+
+        .app-card:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top, #93dcff18, transparent 75%);
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+        }
+
+        .app-card:hover {
+            background: #ffffff15 !important;
+            border-color: #85d5ff66 !important;
+            box-shadow: 0 16px 36px #00000025 !important;
+        }
+
+        .app-card:hover:before {
+            opacity: 1;
+        }
+
+        .app-card h3 {
+            color: #edf5ff !important;
+            font-size: 13px !important;
+        }
+
+        .app-card p {
+            color: #aabfd5 !important;
+            line-height: 1.65 !important;
+        }
+
+        .icon-animated {
+            animation: none;
+            border: 1px solid #ffffff30;
+            box-shadow: 0 6px 18px #0002 !important;
+            transition: transform .3s;
+        }
+
+        .app-card:hover .icon-animated {
+            animation: none;
+            transform: translateY(-3px) rotate(-4deg);
+        }
+
+        footer {
+            background: #07182f99 !important;
+            border-color: #ffffff15 !important;
+        }
+
+        footer p,
+        footer .text-slate-600 {
+            color: #a8bdd3 !important;
+        }
+
+        .motion-control {
+            border: 1px solid #ffffff26;
+            background: #ffffff09;
+            color: #c0d4e8;
+            padding: 7px 12px;
+            border-radius: 9px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .motion-control:hover {
+            background: #ffffff18;
+        }
+
+        :focus-visible {
+            outline: 2px solid #7dd3fc !important;
+            outline-offset: 4px;
+        }
+
+        .motion-paused *,
+        .motion-paused *::before {
+            animation-play-state: paused !important;
+        }
+
+        .no-results {
+            color: #bdd0e4;
+            text-align: center;
+            padding: 48px 16px;
+        }
+
+        @media (max-width:640px) {
+            main {
+                padding-top: 30px !important;
+            }
+
+            header h1 {
+                font-size: 12px !important;
+            }
+
+            header h1 span {
+                display: block;
+            }
+
+            header p {
+                max-width: 210px;
+                font-size: 8px !important;
+            }
+
+            .aurora {
+                filter: blur(40px);
+            }
+
+            .app-card {
+                min-height: 160px;
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .app-card:hover,
+            .app-card:hover .icon-animated {
+                transform: none !important;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(241, 241, 241, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body
+    class="font-sans antialiased bg-[#f7f3ea] text-slate-800 min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-gov-500 selection:text-white">
+
+    <div class="scene" aria-hidden="true">
+        <div class="aurora aurora-one"></div>
+        <div class="aurora aurora-two"></div>
+        <div class="aurora aurora-three"></div>
+        <div class="scene-grid"></div>
+        <div class="orbital"></div>
+        <div class="orbital second"></div>
+        <span class="star" style="left:8%;top:30%"></span><span class="star"
+            style="left:36%;top:16%;animation-delay:-3s"></span><span class="star"
+            style="left:88%;top:72%;animation-delay:-5s"></span><span class="star"
+            style="left:64%;top:88%;animation-delay:-1s"></span>
+    </div>
+
+    <!-- HEADER FUTURISTIK & CLEAN -->
+    <header class="relative z-10 bg-white/80 backdrop-blur-md border-b border-blue-100 shadow-sm sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-tr from-gov-700 to-sky-400 flex items-center justify-center text-white shadow-md shadow-gov-500/20">
+                    <i class="fa-solid fa-building-columns text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 text-base sm:text-lg leading-tight tracking-wide">PORTAL BKPSDM
+                        <span class="text-gov-600">Kabupaten HSS</span></h1>
+                    <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase">Satu Pintu Layanan
+                        Kepegawaian & Administrasi</p>
+                </div>
+            </div>
+
+            <!-- Jam Realtime & Status User (Desktop View) -->
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex flex-col text-right border-r border-slate-200 pr-6">
+                    <span id="clock" class="font-mono text-sm font-semibold text-slate-700">00:00:00 WITA</span>
+                    <span id="date" class="text-[11px] text-slate-500">Rabu, 9 September 2026</span>
+                </div>
+
+                <!-- Profile / User Status -->
+                <div
+                    class="flex items-center space-x-3 bg-slate-50 border border-slate-200/80 rounded-full py-1 px-3 shadow-inner">
+                    <div class="relative">
+                        <img class="h-8 w-8 rounded-full object-cover ring-2 ring-gov-500"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"
+                            alt="User Avatar">
+                        <span
+                            class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+                    </div>
+                    <div class="hidden sm:block text-left text-xs">
+                        <p class="font-semibold text-slate-700 leading-none">Ahmad Syamsuddin, S.Kom</p>
+                        <p class="text-[10px] text-slate-500 mt-0.5">NIP. 19800101 200604 1 002</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA: DESKTOP WORKSPACE / GRID LAYANAN -->
+    <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Bar Pencarian & Info Cepat -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <div class="eyebrow">BKPSDM · Hulu Sungai Selatan</div>
+                <h2 class="text-xl font-bold text-slate-800 tracking-tight">Ruang Kerja Digital</h2>
+                <p class="text-xs text-slate-500">Pilih aplikasi atau layanan terpadu yang Anda butuhkan.</p>
+            </div>
+
+            <!-- Widget Cari App -->
+            <div class="relative max-w-md w-full">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="searchInput" oninput="searchApps()" aria-label="Cari layanan"
+                    placeholder="Cari nama atau jenis layanan..."
+                    class="w-full pl-10 pr-4 py-2 text-xs bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gov-500 focus:bg-white transition-all">
+            </div>
+        </div>
+
+        <!-- Grid Layanan / Aplikasi ASN (Desktop Icon Style) -->
+        <div id="appGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5">
+
+            <!-- Layanan 1: E-Kinerja -->
+            <a href="https://ekinerja.hulusungaiselatankab.go.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-blue-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 icon-animated">
+                    <i class="fa-solid fa-chart-line text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    E-Kinerja</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Pengelolaan & penilaian capaian
+                    kinerja bulanan ASN.</p>
+            </a>
+
+            <!-- Layanan 2: SIKAP-360 (Penilaian Perilaku 360 Derajat) -->
+            <a href="https://sikap.bkpsdmhss.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-violet-600 to-fuchsia-400 flex items-center justify-center text-white shadow-lg shadow-violet-500/30 icon-animated">
+                    <i class="fa-solid fa-users-viewfinder text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    SIKAP-360</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Penilaian Perilaku ASN berbasis
+                    penilaian atasan, rekan sejawat dan bawahan.</p>
+            </a>
+
+            <!-- Layanan 3: Buku Tamu Digital -->
+            <a href="https://bukutamu.bkpsdmhss.id/" target="_blank" rel="noopener noreferrer"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-300 flex items-center justify-center text-white shadow-lg shadow-orange-500/30 icon-animated">
+                    <i class="fa-solid fa-clipboard-user text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    Buku Tamu</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Layanan buku tamu digital ASN.
+                </p>
+            </a>
+
+            <!-- Layanan 4: SIPAGAR (Sistem Informasi Pagu Anggaran & Realisasi) -->
+            <a href="https://sipagar.bkpsdmhss.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-lime-600 to-green-400 flex items-center justify-center text-white shadow-lg shadow-lime-500/30 icon-animated">
+                    <i class="fa-solid fa-sack-dollar text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    SIPAGAR</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Sistem Informasi Pagu Anggaran &
+                    Realisasi.</p>
+            </a>
+
+            <!-- Layanan 5: Cloud Server (Penyimpanan File ASN) -->
+            <a href="https://cloud.bkpsdmhss.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-teal-500 to-cyan-300 flex items-center justify-center text-white shadow-lg shadow-teal-500/30 icon-animated">
+                    <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    CLOUD SERVER</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Server cloud penyimpanan file
+                    ASN.</p>
+            </a>
+
+            <!-- Layanan 6: SI-Presensi -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 icon-animated">
+                    <i class="fa-solid fa-user-clock text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    SI-Presensi</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Pencatatan kehadiran harian
+                    berbasis titik lokasi GPS.</p>
+            </a>
+
+            <!-- Layanan 7: E-Office & Naskah Dinas -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 icon-animated">
+                    <i class="fa-solid fa-file-signature text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    E-Naskah Dinas</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Tata kelola surat masuk, keluar,
+                    dan tanda tangan digital.</p>
+            </a>
+
+            <!-- Layanan 8: Simpeg (Sistem Informasi Kepegawaian) -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-400 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 icon-animated">
+                    <i class="fa-solid fa-id-card text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    SIMPEG Smart</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Update profil biodata, riwayat
+                    jabatan, dan kenaikan pangkat.</p>
+            </a>
+
+            <!-- Layanan 9: E-Cuti -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center text-white shadow-lg shadow-amber-500/30 icon-animated">
+                    <i class="fa-solid fa-plane-departure text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    E-Cuti Online</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Pengajuan izin cuti tahunan,
+                    sakit, dan alasan penting.</p>
+            </a>
+
+            <!-- Layanan 10: SI-PPID (Informasi Publik) -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/30 icon-animated">
+                    <i class="fa-solid fa-bullhorn text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    Layanan PPID</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Permohonan informasi dan
+                    dokumentasi publik terintegrasi.</p>
+            </a>
+
+            <!-- Layanan 11: E-Pengaduan (SP4N-LAPOR!) -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-400 flex items-center justify-center text-white shadow-lg shadow-rose-500/30 icon-animated">
+                    <i class="fa-solid fa-shield-cat text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    Lapor ASN</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Sistem kanal aduan internal dan
+                    pengawasan etika pegawai.</p>
+            </a>
+
+            <!-- Layanan 12: SI-Diklat / Pengembangan Kompetensi -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-sky-500 to-teal-300 flex items-center justify-center text-white shadow-lg shadow-sky-500/30 icon-animated">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    SI-Diklat</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Pendaftaran bimbingan teknis,
+                    pelatihan, dan sertifikasi.</p>
+            </a>
+
+            <!-- Layanan 13: Slip Gaji & TPP -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 icon-animated">
+                    <i class="fa-solid fa-wallet text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    E-Payroll & TPP</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Cek rincian slip gaji bulanan &
+                    Tambahan Penghasilan Pegawai.</p>
+            </a>
+
+            <!-- Layanan 14: Helpdesk IT -->
+            <a href="#"
+                class="app-card group relative bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/80 hover:border-gov-500/50 rounded-2xl p-4 flex flex-col items-center text-center transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
+                <div
+                    class="w-12 h-12 mb-3 rounded-xl bg-gradient-to-tr from-slate-700 to-slate-500 flex items-center justify-center text-white shadow-lg shadow-slate-500/30 icon-animated">
+                    <i class="fa-solid fa-headset text-xl"></i>
+                </div>
+                <h3
+                    class="font-semibold text-xs sm:text-sm text-slate-800 group-hover:text-gov-600 transition-colors line-clamp-1">
+                    Helpdesk SPBE</h3>
+                <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">Dukungan teknis jaringan,
+                    sistem, dan akun terintegrasi.</p>
+            </a>
+
+        </div>
+        <p id="noResults" class="no-results" role="status" hidden>Layanan tidak ditemukan. Coba kata kunci lain.</p>
+    </main>
+
+    <!-- FOOTER KECIL & TIPIS -->
+    <footer class="relative z-10 bg-white/90 backdrop-blur-md border-t border-slate-200/80 py-2.5 px-4 text-center">
+        <div
+            class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-1.5">
+            <div class="flex items-center space-x-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <p>Sistem Operasional Berjalan Normal · <span class="font-medium text-slate-600">Tim IT BKPSDM
+                        HSS</span></p>
+            </div>
+            <button type="button" id="motionToggle" class="motion-control" aria-pressed="false">Jeda animasi</button>
+            <p>© 2026 Portal BKPSDM Kabupaten HSS.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOKAL -->
+    <script>
+        // Fitur Jam Digital
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(now) + ' WITA';
+            const options = { timeZone: 'Asia/Makassar', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('id-ID', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Fitur Pencarian Aplikasi
+        function searchApps() {
+            const input = document.getElementById('searchInput').value.trim().toLowerCase();
+            const cards = document.getElementsByClassName('app-card');
+
+            Array.from(cards).forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(input) || desc.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+            document.getElementById('noResults').hidden = Array.from(cards).some(card => card.style.display !== 'none');
+        }
+        const motionToggle = document.getElementById('motionToggle');
+        const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+        function syncMotionPreference() {
+            motionToggle.disabled = reducedMotion.matches;
+            motionToggle.textContent = reducedMotion.matches ? 'Animasi dinonaktifkan' : document.body.classList.contains('motion-paused') ? 'Aktifkan animasi' : 'Jeda animasi';
+        }
+        motionToggle.addEventListener('click', () => {
+            const paused = document.body.classList.toggle('motion-paused');
+            motionToggle.setAttribute('aria-pressed', String(paused));
+            syncMotionPreference();
+        });
+        reducedMotion.addEventListener('change', syncMotionPreference);
+        syncMotionPreference();
+    </script>
+</body>
+
+</html>
