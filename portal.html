@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Layanan Digital ASN - BKPSDM HSS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Pro / Free CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        gov: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Modern Glassmorphism & Animations */
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            50% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        @keyframes floatReverse {
+
+            0%,
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            50% {
+                transform: translate(-30px, 40px) scale(1.05);
+            }
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .animate-float-1 {
+            animation: floatSlow 18s ease-in-out infinite;
+        }
+
+        .animate-float-2 {
+            animation: floatReverse 22s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        .app-card {
+            animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 12px 30px -5px rgba(14, 165, 233, 0.25);
+        }
+
+        /* Subtle Noise Overlay */
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* Icon Animation on Hover */
+        .app-card:hover .card-icon {
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(14, 165, 233, 0.4);
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(14, 165, 233, 0.7);
+        }
+    </style>
+</head>
+
+<body
+    class="font-sans antialiased bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-gov-500 selection:text-white">
+
+    <!-- FUTURISTIC DYNAMIC BACKGROUND (GLOW MESH GRADIENT) -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <!-- Base Dark Canvas -->
+        <div class="absolute inset-0 bg-[#070913]"></div>
+
+        <!-- Glowing Animated Orbs -->
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[55vw] h-[55vw] rounded-full bg-gradient-to-br from-gov-600/30 via-indigo-600/20 to-transparent blur-[120px] animate-float-1">
+        </div>
+        <div
+            class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-cyan-500/25 via-teal-600/15 to-transparent blur-[120px] animate-float-2">
+        </div>
+        <div
+            class="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] rounded-full bg-indigo-500/15 blur-[140px] animate-pulse-glow">
+        </div>
+
+        <!-- Grid Pattern Overlay -->
+        <div
+            class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]">
+        </div>
+
+        <!-- Noise Texture -->
+        <div class="absolute inset-0 bg-noise"></div>
+    </div>
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="relative z-30 glass-panel sticky top-0 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+            <!-- Logo & Brand Title -->
+            <div class="flex items-center space-x-3.5">
+                <div class="relative group cursor-pointer">
+                    <div
+                        class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-70 group-hover:opacity-100 transition duration-300">
+                    </div>
+                    <div
+                        class="relative w-11 h-11 rounded-xl bg-slate-900 flex items-center justify-center text-white font-bold border border-white/10">
+                        <i class="fa-solid fa-building-columns text-xl text-cyan-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-white text-base sm:text-lg tracking-tight flex items-center gap-2">
+                        PORTAL BKPSDM
+                        <span
+                            class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold tracking-normal">HSS</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-400 font-medium tracking-wide">Satu Pintu Layanan Kepegawaian &
+                        Administrasi Digital</p>
+                </div>
+            </div>
+
+            <!-- Jam Realtime & Profile Status -->
+            <div class="flex items-center space-x-5">
+                <!-- Clock Widget -->
+                <div class="hidden md:flex flex-col text-right border-r border-slate-700/60 pr-5">
+                    <span id="clock" class="font-mono text-xs font-bold text-cyan-400 tracking-wider">00:00:00
+                        WITA</span>
+                    <span id="date" class="text-[10px] text-slate-400 font-medium mt-0.5">Rabu, 16 September 2026</span>
+                </div>
+
+                <!-- Profile Avatar -->
+                <div
+                    class="flex items-center space-x-3 bg-slate-800/60 hover:bg-slate-800/90 border border-white/10 rounded-full p-1.5 pr-4 transition-all duration-300 cursor-pointer">
+                    <div class="relative">
+                        <img class="h-9 w-9 rounded-full object-cover ring-2 ring-cyan-500/50"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"
+                            alt="User Avatar">
+                        <span
+                            class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-400 ring-2 ring-slate-900 animate-pulse"></span>
+                    </div>
+                    <div class="hidden sm:block text-left">
+                        <p class="font-semibold text-xs text-slate-200 leading-none">Ahmad Syamsuddin, S.Kom</p>
+                        <p class="text-[10px] text-slate-400 font-mono mt-1">NIP. 19800101 200604 1 002</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <!-- Header Section & Search Bar -->
+        <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs text-cyan-400 font-medium mb-3">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Workspace Aktif
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Ruang Kerja Digital ASN</h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">Akses cepat seluruh layanan terpadu kepegawaian
+                    Kabupaten Hulu Sungai Selatan.</p>
+            </div>
+
+            <!-- Modern Search Input -->
+            <div class="relative max-w-md w-full">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="searchInput" onkeyup="searchApps()" placeholder="Cari nama atau jenis layanan..."
+                    class="w-full pl-11 pr-4 py-3 text-xs bg-slate-900/70 border border-slate-700/80 rounded-2xl text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all backdrop-blur-md">
+            </div>
+        </div>
+
+        <!-- Grid Layanan / Aplikasi ASN -->
+        <div id="appGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+
+            <!-- Layanan 1: E-Kinerja -->
+            <a href="https://ekinerja.hulusungaiselatankab.go.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-chart-line text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    E-Kinerja</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Pengelolaan & penilaian
+                    capaian kinerja bulanan ASN.</p>
+            </a>
+
+            <!-- Layanan 2: SIKAP-360 -->
+            <a href="https://sikap.bkpsdmhss.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-violet-600 to-fuchsia-400 flex items-center justify-center text-white shadow-lg shadow-violet-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-users-viewfinder text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    SIKAP-360</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Penilaian perilaku ASN
+                    berbasis atasan, rekan & bawahan.</p>
+            </a>
+
+            <!-- Layanan 3: Buku Tamu Digital -->
+            <a href="https://bukutamu.bkpsdmhss.id/" target="_blank" rel="noopener noreferrer"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-white shadow-lg shadow-amber-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-clipboard-user text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    Buku Tamu</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Layanan buku tamu digital
+                    terintegrasi ASN.</p>
+            </a>
+
+            <!-- Layanan 4: SIPAGAR -->
+            <a href="https://sipagar.bkpsdmhss.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-sack-dollar text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    SIPAGAR</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Sistem Informasi Pagu Anggaran
+                    & Realisasi.</p>
+            </a>
+
+            <!-- Layanan 5: Cloud Server -->
+            <a href="https://cloud.bkpsdmhss.id" target="_blank" rel="noopener noreferrer"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-cyan-500 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    Cloud Server</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Penyimpanan dokumen & berkas
+                    digital aman ASN.</p>
+            </a>
+
+            <!-- Layanan 6: SI-Presensi -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-teal-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-user-clock text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    SI-Presensi</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Pencatatan kehadiran harian
+                    berbasis titik GPS.</p>
+            </a>
+
+            <!-- Layanan 7: E-Naskah Dinas -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-file-signature text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    E-Naskah Dinas</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Tata kelola surat masuk,
+                    keluar & TTE digital.</p>
+            </a>
+
+            <!-- Layanan 8: SIMPEG Smart -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-sky-600 to-indigo-400 flex items-center justify-center text-white shadow-lg shadow-sky-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-id-card text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    SIMPEG Smart</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Update biodata, riwayat
+                    jabatan & kenaikan pangkat.</p>
+            </a>
+
+            <!-- Layanan 9: E-Cuti Online -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-yellow-500 to-amber-300 flex items-center justify-center text-white shadow-lg shadow-yellow-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-plane-departure text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    E-Cuti Online</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Pengajuan izin cuti tahunan,
+                    sakit, & alasan penting.</p>
+            </a>
+
+            <!-- Layanan 10: Layanan PPID -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-bullhorn text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    Layanan PPID</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Permohonan informasi &
+                    dokumentasi publik terintegrasi.</p>
+            </a>
+
+            <!-- Layanan 11: Lapor ASN -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-rose-500 to-red-400 flex items-center justify-center text-white shadow-lg shadow-rose-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-shield-cat text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    Lapor ASN</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Kanal aduan internal dan
+                    pengawasan etika pegawai.</p>
+            </a>
+
+            <!-- Layanan 12: SI-Diklat -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    SI-Diklat</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Pendaftaran bimtek, pelatihan
+                    & sertifikasi ASN.</p>
+            </a>
+
+            <!-- Layanan 13: E-Payroll & TPP -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-emerald-600 to-green-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-wallet text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    E-Payroll & TPP</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Rincian slip gaji bulanan &
+                    Tambahan Penghasilan Pegawai.</p>
+            </a>
+
+            <!-- Layanan 14: Helpdesk SPBE -->
+            <a href="#"
+                class="app-card group glass-card rounded-2xl p-5 flex flex-col items-center text-center transition-all duration-300">
+                <div
+                    class="card-icon w-14 h-14 mb-4 rounded-2xl bg-gradient-to-tr from-slate-700 to-slate-500 flex items-center justify-center text-white shadow-lg shadow-slate-500/30 transition-transform duration-300">
+                    <i class="fa-solid fa-headset text-2xl"></i>
+                </div>
+                <h3
+                    class="font-bold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    Helpdesk SPBE</h3>
+                <p class="text-[11px] text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">Dukungan teknis jaringan,
+                    sistem, & akun terintegrasi.</p>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-20 glass-panel border-t border-slate-800 py-4 px-4 text-center">
+        <div
+            class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <p>Sistem Operasional Berjalan Normal — <span class="font-semibold text-slate-200">Tim IT BKPSDM
+                        HSS</span></p>
+            </div>
+            <p class="text-slate-500">© 2026 Portal BKPSDM Kabupaten Hulu Sungai Selatan.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Fitur Jam & Tanggal Realtime
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} WITA`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('id-ID', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Fitur Live Search Application Cards
+        function searchApps() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.getElementsByClassName('app-card');
+
+            Array.from(cards).forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(input) || desc.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Stagger Animation Cascade saat Load Pertama Kali
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 50}ms`;
+            });
+        });
+    </script>
+</body>
+
+</html>
